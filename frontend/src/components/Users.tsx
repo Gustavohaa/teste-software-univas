@@ -103,39 +103,46 @@ const Users: React.FC = () => {
       <div className="card">
         <h2>Usuários</h2>
         {error && <div className="error">{error}</div>}
-        
-        <button 
-          className="btn" 
-          onClick={() => setShowForm(true)}
-        >
+
+        <button className="btn" onClick={() => setShowForm(true)}>
           Adicionar Usuário
         </button>
 
         {showForm && (
-          <form onSubmit={handleSubmit} style={{ marginTop: '20px' }}>
+          <form onSubmit={handleSubmit} style={{ marginTop: "20px" }}>
             <div className="form-group">
-              <label>Nome:</label>
+              <label htmlFor="name">Nome:</label>
               <input
+                id="name"
                 type="text"
                 value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
                 required
               />
             </div>
             <div className="form-group">
-              <label>Email:</label>
+              <label htmlFor="email">Email:</label>
               <input
+                id="email"
                 type="email"
                 value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
                 required
               />
             </div>
             <div>
               <button type="submit" className="btn btn-success">
-                {editingUser ? 'Atualizar' : 'Criar'}
+                {editingUser ? "Atualizar" : "Criar"}
               </button>
-              <button type="button" className="btn btn-secondary" onClick={handleCancel}>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={handleCancel}
+              >
                 Cancelar
               </button>
             </div>
@@ -158,16 +165,16 @@ const Users: React.FC = () => {
                 <td>{user.name}</td>
                 <td>{user.email}</td>
                 <td>{user.tasks?.length || 0}</td>
-                <td>{new Date(user.createdAt).toLocaleDateString('pt-BR')}</td>
+                <td>{new Date(user.createdAt).toLocaleDateString("pt-BR")}</td>
                 <td>
-                  <button 
-                    className="btn btn-sm" 
+                  <button
+                    className="btn btn-sm"
                     onClick={() => handleEdit(user)}
                   >
                     Editar
                   </button>
-                  <button 
-                    className="btn btn-sm btn-danger" 
+                  <button
+                    className="btn btn-sm btn-danger"
                     onClick={() => handleDelete(user.id)}
                   >
                     Excluir
@@ -179,7 +186,7 @@ const Users: React.FC = () => {
         </table>
       </div>
     </div>
-  )
+  );
 }
 
 export default Users
