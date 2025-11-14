@@ -1,0 +1,34 @@
+{
+  "API Tasks" : {
+    "transaction" : "API Tasks",
+    "sampleCount" : 200,
+    "errorCount" : 200,
+    "errorPct" : 100.0,
+    "meanResTime" : 4084.5249999999996,
+    "medianResTime" : 4087.0,
+    "minResTime" : 4038.0,
+    "maxResTime" : 4113.0,
+    "pct1ResTime" : 4102.0,
+    "pct2ResTime" : 4105.0,
+    "pct3ResTime" : 4111.98,
+    "throughput" : 3.138239447669857,
+    "receivedKBytesPerSec" : 8.400306959045976,
+    "sentKBytesPerSec" : 0.0
+  },
+  "Total" : {
+    "transaction" : "Total",
+    "sampleCount" : 200,
+    "errorCount" : 200,
+    "errorPct" : 100.0,
+    "meanResTime" : 4084.5249999999996,
+    "medianResTime" : 4087.0,
+    "minResTime" : 4038.0,
+    "maxResTime" : 4113.0,
+    "pct1ResTime" : 4102.0,
+    "pct2ResTime" : 4105.0,
+    "pct3ResTime" : 4111.98,
+    "throughput" : 3.138239447669857,
+    "receivedKBytesPerSec" : 8.400306959045976,
+    "sentKBytesPerSec" : 0.0
+  }
+}
