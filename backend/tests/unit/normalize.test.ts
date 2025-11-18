@@ -1,4 +1,4 @@
-import { normalizeName } from "@/utils/normalize"
+import { normalizeName } from "../../src/utils/normalize"
 import { describe, it, expect } from "vitest"
 
 describe('normalizeName', () => {

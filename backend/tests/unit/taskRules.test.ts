@@ -1,4 +1,4 @@
-import { canTransition } from '@/utils/taskRules'
+import { canTransition } from '../../src/utils/taskRules'
 import { describe, it, expect } from 'vitest'
 
 describe('canTransition', () => {
