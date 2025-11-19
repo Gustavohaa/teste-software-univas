@@ -5,7 +5,6 @@ import app, { prisma as appPrisma } from "../../src/index";
 import { prisma, resetDb } from "./testDb";
 import { describe, it, afterAll, beforeEach, expect } from "vitest";
 
-// Função auxiliar usada em todos os testes
 async function createTestData() {
   const user = await prisma.user.create({
     data: { name: "Test User", email: "test@example.com" },
@@ -18,9 +17,6 @@ async function createTestData() {
   return { user, category };
 }
 
-//
-// POST /api/tasks
-//
 describe("Tasks API", () => {
   afterAll(async () => {
     await prisma.$disconnect();
@@ -71,9 +67,6 @@ describe("Tasks API", () => {
   });
 });
 
-//
-// GET /api/tasks
-//
 describe("GET /api/tasks", () => {
   beforeEach(async () => {
     await resetDb();
@@ -197,9 +190,6 @@ describe("GET /api/tasks", () => {
   });
 });
 
-//
-// GET /api/tasks/:id
-//
 describe("GET /api/tasks/:id", () => {
   beforeEach(async () => {
     await resetDb();
@@ -238,9 +228,6 @@ describe("GET /api/tasks/:id", () => {
   });
 });
 
-//
-// PUT /api/tasks/:id
-//
 describe("PUT /api/tasks/:id", () => {
   beforeEach(async () => {
     await resetDb();
@@ -468,9 +455,6 @@ describe("PUT /api/tasks/:id", () => {
   });
 });
 
-//
-// DELETE /api/tasks/:id
-//
 describe("DELETE /api/tasks/:id", () => {
   beforeEach(async () => {
     await resetDb();
