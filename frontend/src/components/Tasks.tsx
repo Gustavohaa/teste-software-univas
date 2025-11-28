@@ -1,135 +1,135 @@
-import React, { useState, useEffect } from 'react'
-import { api } from '../services/api'
+import React, { useState, useEffect } from "react";
+import { api } from "../services/api";
 
 interface Task {
-  id: string
-  title: string
-  description?: string
-  status: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED'
-  priority: 'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT'
-  createdAt: string
-  updatedAt: string
-  user: User
-  category: Category
+  id: string;
+  title: string;
+  description?: string;
+  status: "PENDING" | "IN_PROGRESS" | "COMPLETED" | "CANCELLED";
+  priority: "LOW" | "MEDIUM" | "HIGH" | "URGENT";
+  createdAt: string;
+  updatedAt: string;
+  user: User;
+  category: Category;
 }
 
 interface User {
-  id: string
-  name: string
-  email: string
+  id: string;
+  name: string;
+  email: string;
 }
 
 interface Category {
-  id: string
-  name: string
+  id: string;
+  name: string;
 }
 
 const Tasks: React.FC = () => {
-  const [tasks, setTasks] = useState<Task[]>([])
-  const [users, setUsers] = useState<User[]>([])
-  const [categories, setCategories] = useState<Category[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-  const [showForm, setShowForm] = useState(false)
-  const [editingTask, setEditingTask] = useState<Task | null>(null)
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [showForm, setShowForm] = useState(false);
+  const [editingTask, setEditingTask] = useState<Task | null>(null);
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    status: 'PENDING' as const,
-    priority: 'MEDIUM' as const,
-    userId: '',
-    categoryId: ''
-  })
+    title: "",
+    description: "",
+    status: "PENDING" as const,
+    priority: "MEDIUM" as const,
+    userId: "",
+    categoryId: "",
+  });
 
   useEffect(() => {
-    fetchData()
-  }, [])
+    fetchData();
+  }, []);
 
   const fetchData = async () => {
     try {
-      setLoading(true)
+      setLoading(true);
       const [tasksRes, usersRes, categoriesRes] = await Promise.all([
-        api.get('/tasks'),
-        api.get('/users'),
-        api.get('/categories')
-      ])
-      
-      setTasks(tasksRes.data.data)
-      setUsers(usersRes.data.data)
-      setCategories(categoriesRes.data.data)
-      setError(null)
+        api.get("/tasks"),
+        api.get("/users"),
+        api.get("/categories"),
+      ]);
+
+      setTasks(tasksRes.data.data);
+      setUsers(usersRes.data.data);
+      setCategories(categoriesRes.data.data);
+      setError(null);
     } catch (err) {
-      setError('Erro ao carregar dados')
-      console.error('Error fetching data:', err)
+      setError("Erro ao carregar dados");
+      console.error("Error fetching data:", err);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
       if (editingTask) {
-        await api.put(`/tasks/${editingTask.id}`, formData)
+        await api.put(`/tasks/${editingTask.id}`, formData);
       } else {
-        await api.post('/tasks', formData)
+        await api.post("/tasks", formData);
       }
-      resetForm()
-      fetchData()
+      resetForm();
+      fetchData();
     } catch (err) {
-      setError('Erro ao salvar tarefa')
-      console.error('Error saving task:', err)
+      setError("Erro ao salvar tarefa");
+      console.error("Error saving task:", err);
     }
-  }
+  };
 
   const handleEdit = (task: Task) => {
-    setEditingTask(task)
+    setEditingTask(task);
     setFormData({
       title: task.title,
-      description: task.description || '',
+      description: task.description || "",
       status: task.status,
       priority: task.priority,
       userId: task.user.id,
-      categoryId: task.category.id
-    })
-    setShowForm(true)
-  }
+      categoryId: task.category.id,
+    });
+    setShowForm(true);
+  };
 
   const handleDelete = async (id: string) => {
-    if (window.confirm('Tem certeza que deseja excluir esta tarefa?')) {
+    if (window.confirm("Tem certeza que deseja excluir esta tarefa?")) {
       try {
-        await api.delete(`/tasks/${id}`)
-        fetchData()
+        await api.delete(`/tasks/${id}`);
+        fetchData();
       } catch (err) {
-        setError('Erro ao excluir tarefa')
-        console.error('Error deleting task:', err)
+        setError("Erro ao excluir tarefa");
+        console.error("Error deleting task:", err);
       }
     }
-  }
+  };
 
   const resetForm = () => {
     setFormData({
-      title: '',
-      description: '',
-      status: 'PENDING',
-      priority: 'MEDIUM',
-      userId: '',
-      categoryId: ''
-    })
-    setEditingTask(null)
-    setShowForm(false)
-  }
+      title: "",
+      description: "",
+      status: "PENDING",
+      priority: "MEDIUM",
+      userId: "",
+      categoryId: "",
+    });
+    setEditingTask(null);
+    setShowForm(false);
+  };
 
   const getStatusClass = (status: string) => {
-    return `status-badge status-${status.toLowerCase().replace('_', '-')}`
-  }
+    return `status-badge status-${status.toLowerCase().replace("_", "-")}`;
+  };
 
   const getPriorityClass = (priority: string) => {
-    return `priority-badge priority-${priority.toLowerCase()}`
-  }
+    return `priority-badge priority-${priority.toLowerCase()}`;
+  };
 
   if (loading) {
-    return <div className="loading">Carregando tarefas...</div>
+    return <div className="loading">Carregando tarefas...</div>;
   }
 
   return (
@@ -137,37 +137,43 @@ const Tasks: React.FC = () => {
       <div className="card">
         <h2>Tarefas</h2>
         {error && <div className="error">{error}</div>}
-        
-        <button 
-          className="btn" 
-          onClick={() => setShowForm(true)}
-        >
+
+        <button className="btn" onClick={() => setShowForm(true)}>
           Adicionar Tarefa
         </button>
 
         {showForm && (
-          <form onSubmit={handleSubmit} style={{ marginTop: '20px' }}>
+          <form onSubmit={handleSubmit} style={{ marginTop: "20px" }}>
             <div className="form-group">
-              <label>Título:</label>
+              <label htmlFor="title">Título:</label>
               <input
+                id="title"
                 type="text"
                 value={formData.title}
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, title: e.target.value })
+                }
                 required
               />
             </div>
             <div className="form-group">
-              <label>Descrição:</label>
+              <label htmlFor="description">Descrição:</label>
               <textarea
+                id="description"
                 value={formData.description}
-                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, description: e.target.value })
+                }
               />
             </div>
             <div className="form-group">
-              <label>Status:</label>
+              <label htmlFor="status">Status:</label>
               <select
+                id="status"
                 value={formData.status}
-                onChange={(e) => setFormData({ ...formData, status: e.target.value as any })}
+                onChange={(e) =>
+                  setFormData({ ...formData, status: e.target.value as any })
+                }
               >
                 <option value="PENDING">Pendente</option>
                 <option value="IN_PROGRESS">Em Progresso</option>
@@ -176,10 +182,13 @@ const Tasks: React.FC = () => {
               </select>
             </div>
             <div className="form-group">
-              <label>Prioridade:</label>
+              <label htmlFor="priority">Prioridade:</label>
               <select
+                id="priority"
                 value={formData.priority}
-                onChange={(e) => setFormData({ ...formData, priority: e.target.value as any })}
+                onChange={(e) =>
+                  setFormData({ ...formData, priority: e.target.value as any })
+                }
               >
                 <option value="LOW">Baixa</option>
                 <option value="MEDIUM">Média</option>
@@ -188,10 +197,13 @@ const Tasks: React.FC = () => {
               </select>
             </div>
             <div className="form-group">
-              <label>Usuário:</label>
+              <label htmlFor="user">Usuário:</label>
               <select
+                id="user"
                 value={formData.userId}
-                onChange={(e) => setFormData({ ...formData, userId: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, userId: e.target.value })
+                }
                 required
               >
                 <option value="">Selecione um usuário</option>
@@ -203,10 +215,13 @@ const Tasks: React.FC = () => {
               </select>
             </div>
             <div className="form-group">
-              <label>Categoria:</label>
+              <label htmlFor="category">Categoria:</label>
               <select
+                id="category"
                 value={formData.categoryId}
-                onChange={(e) => setFormData({ ...formData, categoryId: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, categoryId: e.target.value })
+                }
                 required
               >
                 <option value="">Selecione uma categoria</option>
@@ -219,9 +234,13 @@ const Tasks: React.FC = () => {
             </div>
             <div>
               <button type="submit" className="btn btn-success">
-                {editingTask ? 'Atualizar' : 'Criar'}
+                {editingTask ? "Atualizar" : "Criar"}
               </button>
-              <button type="button" className="btn btn-secondary" onClick={resetForm}>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={resetForm}
+              >
                 Cancelar
               </button>
             </div>
@@ -246,7 +265,7 @@ const Tasks: React.FC = () => {
                 <td>{task.title}</td>
                 <td>
                   <span className={getStatusClass(task.status)}>
-                    {task.status.replace('_', ' ')}
+                    {task.status.replace("_", " ")}
                   </span>
                 </td>
                 <td>
@@ -256,16 +275,16 @@ const Tasks: React.FC = () => {
                 </td>
                 <td>{task.user.name}</td>
                 <td>{task.category.name}</td>
-                <td>{new Date(task.createdAt).toLocaleDateString('pt-BR')}</td>
+                <td>{new Date(task.createdAt).toLocaleDateString("pt-BR")}</td>
                 <td>
-                  <button 
-                    className="btn btn-sm" 
+                  <button
+                    className="btn btn-sm"
                     onClick={() => handleEdit(task)}
                   >
                     Editar
                   </button>
-                  <button 
-                    className="btn btn-sm btn-danger" 
+                  <button
+                    className="btn btn-sm btn-danger"
                     onClick={() => handleDelete(task.id)}
                   >
                     Excluir
@@ -277,7 +296,7 @@ const Tasks: React.FC = () => {
         </table>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Tasks
+export default Tasks;
